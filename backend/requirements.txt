@@ -1,0 +1,4 @@
+#añadir dependencias de python para que el proyecto funcione
+flask
+flask_sqlalchemy
+flask_cors
