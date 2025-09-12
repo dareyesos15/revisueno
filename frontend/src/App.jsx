@@ -12,7 +12,7 @@ function App() {
   return (
     <div>
       <Navbar setSection={setSection} />
-      <div style={{ padding: "20px" }}>
+      <div>
         {section === "routines" && <SleepRoutines />}
         {section === "exercises" && <Exercises />}
         {section === "diary" && <SleepDiary />}
