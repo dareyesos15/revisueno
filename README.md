@@ -49,7 +49,7 @@ python app.py
 **Levantar frontend**
 cd frontend
 npm install && npm run dev
-
+.
 ## Lugares de ejecución por defecto
 
 **frontend:** http://localhost:5173/
