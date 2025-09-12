@@ -2,12 +2,21 @@ import React from "react"
 
 function Navbar({ setSection }) {
   return (
-    <nav>
-      <button onClick={() => setSection("routines")}>🛏️ Rutinas</button>
-      <button onClick={() => setSection("exercises")}>🧘 Ejercicios</button>
-      <button onClick={() => setSection("diary")}>📖 Diario</button>
-      <button onClick={() => setSection("advice")}>📚 Consejos</button>
-      <button onClick={() => setSection("relaxation")}>🎶 Relajación</button>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
+      <div className="container-fluid justify-content-center">
+        <button className="btn btn-link nav-link fs-5" onClick={() => setSection("start")}>
+          🏠 Inicio
+        </button>
+        <button className="btn btn-link nav-link fs-5" onClick={() => setSection("diary")}>
+          📝 Diario
+        </button>
+        <button className="btn btn-link nav-link fs-5" onClick={() => setSection("routines")}>
+          🌙 Rutina
+        </button>
+        <button className="btn btn-link nav-link fs-5" onClick={() => setSection("advice")}>
+          📚 Consejos
+        </button>
+      </div>
     </nav>
   )
 }
