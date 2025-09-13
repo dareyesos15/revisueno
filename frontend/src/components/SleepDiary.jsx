@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { getRecords, createRecord, updateRecord, deleteRecord } from "../services/api"
+import { Modal } from "bootstrap"
 
 function SleepDiary({ currentUser }) {
   const [records, setRecords] = useState([])
   const [form, setForm] = useState({ day: "", asleepat: "", awakeat: "", note: "" })
-  const [editForm, setEditForm] = useState(null) // 🔹 para editar
+  const [editForm, setEditForm] = useState(null)
   const [message, setMessage] = useState("")
+
+  // refs para modales
+  const addModalRef = useRef(null)
+  const editModalRef = useRef(null)
+  const addModalInstance = useRef(null)
+  const editModalInstance = useRef(null)
 
   useEffect(() => {
     if (currentUser) loadRecords()
@@ -19,29 +26,30 @@ function SleepDiary({ currentUser }) {
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
   const handleEditChange = (e) => setEditForm({ ...editForm, [e.target.name]: e.target.value })
 
-  // 🟢 Crear registro
+  // Crear
   const handleCreate = async (e) => {
     e.preventDefault()
     await createRecord(currentUser.id, form)
     setMessage("✅ Registro guardado con éxito")
     setForm({ day: "", asleepat: "", awakeat: "", note: "" })
     loadRecords()
-    document.getElementById("closeModalBtn")?.click()
+    addModalInstance.current?.hide()
     setTimeout(() => setMessage(""), 2000)
   }
 
-  // Editar registro
+  // Editar
   const handleUpdate = async (e) => {
     e.preventDefault()
+    if (!editForm) return
     await updateRecord(editForm.id, currentUser.id, editForm)
     setMessage("✏️ Registro actualizado")
     setEditForm(null)
     loadRecords()
-    document.getElementById("closeEditModalBtn")?.click()
+    editModalInstance.current?.hide()
     setTimeout(() => setMessage(""), 2000)
   }
 
-  // Eliminar registro
+  // Eliminar
   const handleDelete = async (id) => {
     if (window.confirm("⚠️ ¿Seguro que deseas eliminar este registro?")) {
       await deleteRecord(id)
@@ -65,11 +73,24 @@ function SleepDiary({ currentUser }) {
     return `${horas}h ${minutos}m`
   }
 
+  // Inicializar modales
+  useEffect(() => {
+    if (addModalRef.current) {
+      addModalInstance.current = Modal.getOrCreateInstance(addModalRef.current)
+    }
+    if (editModalRef.current) {
+      editModalInstance.current = Modal.getOrCreateInstance(editModalRef.current)
+    }
+  }, [])
+
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="main-color">📖 Diario del Sueño</h1>
-        <button className="btn main-color text-white" data-bs-toggle="modal" data-bs-target="#recordModal">
+        <button
+          className="btn main-color text-white"
+          onClick={() => addModalInstance.current?.show()}
+        >
           ➕ Nuevo Registro
         </button>
       </div>
@@ -99,13 +120,17 @@ function SleepDiary({ currentUser }) {
                 <td>
                   <button
                     className="btn btn-warning btn-sm me-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
-                    onClick={() => setEditForm(r)}
+                    onClick={() => {
+                      setEditForm(r)
+                      editModalInstance.current?.show()
+                    }}
                   >
                     ✏️ Editar
                   </button>
-                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(r.id)}>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => handleDelete(r.id)}
+                  >
                     🗑️ Eliminar
                   </button>
                 </td>
@@ -117,14 +142,14 @@ function SleepDiary({ currentUser }) {
         <p className="text-center">⚠️ No hay registros todavía.</p>
       )}
 
-      {/* 🔹 Modal Nuevo Registro */}
-      <div className="modal fade" id="recordModal" tabIndex="-1" aria-hidden="true">
+      {/* Modal Nuevo Registro */}
+      <div className="modal fade" ref={addModalRef} tabIndex="-1" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <form onSubmit={handleCreate}>
               <div className="modal-header">
                 <h5 className="modal-title">➕ Nuevo Registro</h5>
-                <button id="closeModalBtn" type="button" className="btn-close" data-bs-dismiss="modal" />
+                <button type="button" className="btn-close" onClick={() => addModalInstance.current?.hide()} />
               </div>
               <div className="modal-body">
                 <input type="date" className="form-control mb-2" name="day" value={form.day} onChange={handleChange} required />
@@ -134,21 +159,21 @@ function SleepDiary({ currentUser }) {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn main-color text-white">Guardar</button>
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-danger" onClick={() => addModalInstance.current?.hide()}>Cancelar</button>
               </div>
             </form>
           </div>
         </div>
       </div>
 
-      {/* 🔹 Modal Editar Registro */}
-      <div className="modal fade" id="editModal" tabIndex="-1" aria-hidden="true">
+      {/* Modal Editar Registro */}
+      <div className="modal fade" ref={editModalRef} tabIndex="-1" aria-hidden="true">
         <div className="modal-dialog">
           <div className="modal-content">
             <form onSubmit={handleUpdate}>
               <div className="modal-header">
                 <h5 className="modal-title">✏️ Editar Registro</h5>
-                <button id="closeEditModalBtn" type="button" className="btn-close" data-bs-dismiss="modal" />
+                <button type="button" className="btn-close" onClick={() => editModalInstance.current?.hide()} />
               </div>
               <div className="modal-body">
                 {editForm && (
@@ -162,7 +187,7 @@ function SleepDiary({ currentUser }) {
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn btn-warning">Actualizar</button>
-                <button type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" className="btn btn-danger" onClick={() => editModalInstance.current?.hide()}>Cancelar</button>
               </div>
             </form>
           </div>

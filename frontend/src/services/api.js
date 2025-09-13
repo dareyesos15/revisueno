@@ -54,19 +54,48 @@ export async function deleteUser(userid) {
 // ====================
 // Rutinas (SleepRoutine)
 // ====================
-export async function createRoutine(routine) {
-  const res = await fetch(`${API_URL}/routines`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(routine)
-  })
-  return res.json()
-}
+// RUTINAS
 
+// Obtener rutinas de un usuario
 export async function getRoutines(userid) {
   const res = await fetch(`${API_URL}/routines/${userid}`)
   return res.json()
 }
+
+// Crear rutina
+export async function createRoutine(userid, routine) {
+  const res = await fetch(`${API_URL}/routines`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userid,
+      task: routine.task,
+      description: routine.description
+    })
+  })
+  return res.json()
+}
+
+// Editar rutina
+export async function updateRoutine(id, routine) {
+  const res = await fetch(`${API_URL}/routines/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      task: routine.task,
+      description: routine.description
+    })
+  })
+  return res.json()
+}
+
+// Eliminar rutina
+export async function deleteRoutine(id) {
+  const res = await fetch(`${API_URL}/routines/${id}`, { method: "DELETE" })
+  return res.json()
+}
+
+
 
 // ====================
 // Registros (Record)

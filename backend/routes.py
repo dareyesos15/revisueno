@@ -142,6 +142,36 @@ def create_routine():
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
 
+@api.route('/routines/<int:routine_id>', methods=['PUT'])
+def update_routine(routine_id):
+    data = request.json
+    try:
+        routine = SleepRoutine.query.get(routine_id)
+        if not routine:
+            return jsonify({"error": "Rutina no encontrada"}), 404
+
+        routine.task = data.get("task", routine.task)
+        routine.description = data.get("description", routine.description)
+
+        db.session.commit()
+        return jsonify({"message": "Rutina actualizada ✏️"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
+@api.route('/routines/<int:routine_id>', methods=['DELETE'])
+def delete_routine(routine_id):
+    try:
+        routine = SleepRoutine.query.get(routine_id)
+        if not routine:
+            return jsonify({"error": "Rutina no encontrada"}), 404
+
+        db.session.delete(routine)
+        db.session.commit()
+        return jsonify({"message": "Rutina eliminada 🗑️"}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
 
 # =========================
 # SLEEP RECORDS (Diario del sueño)
