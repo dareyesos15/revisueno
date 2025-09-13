@@ -1,0 +1,68 @@
+const API_URL = "http://localhost:5000/api"
+
+// ====================
+// Consejos (Advice)
+// ====================
+export async function getAdvice() {
+  const res = await fetch(`${API_URL}/advice`)
+  return res.json()
+}
+
+// ====================
+// Ejercicios (Exercise)
+// ====================
+export async function getExercises() {
+  const res = await fetch(`${API_URL}/exercises`)
+  return res.json()
+}
+
+// ====================
+// Usuarios (User)
+// ====================
+export async function createUser(user) {
+  const res = await fetch(`${API_URL}/users`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(user)
+  })
+  return res.json()
+}
+
+export async function getUsers() {
+  const res = await fetch(`${API_URL}/users`)
+  return res.json()
+}
+
+// ====================
+// Rutinas (SleepRoutine)
+// ====================
+export async function createRoutine(routine) {
+  const res = await fetch(`${API_URL}/routines`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(routine)
+  })
+  return res.json()
+}
+
+export async function getRoutines(userid) {
+  const res = await fetch(`${API_URL}/routines/${userid}`)
+  return res.json()
+}
+
+// ====================
+// Registros (Record)
+// ====================
+export async function createRecord(record) {
+  const res = await fetch(`${API_URL}/records`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(record)
+  })
+  return res.json()
+}
+
+export async function getRecords(userid) {
+  const res = await fetch(`${API_URL}/records/${userid}`)
+  return res.json()
+}

@@ -1,10 +1,12 @@
 import React from "react"
+import Moon from "../assets/moon.png"
 
 function Start({ setSection }) {
   return (
     <div className="container text-center mt-5">
-      <h1 className="mb-4 display-4 text-primary">Sueño Saludable 🌙</h1>
-      <p className="lead mb-5">Hola 👋 ¿Qué deseas hacer hoy?</p>
+      <h1 className="mb-4 display-4 text-primary">Sueño Saludable</h1>
+      <img className="" src={ Moon } alt="moon" />
+      <p className="lead mb-5">Hola {} ¿Qué deseas hacer hoy?</p>
 
       <div className="d-grid gap-3 col-10 col-md-6 mx-auto">
         <button className="btn btn-primary btn-lg" onClick={() => setSection("diary")}>

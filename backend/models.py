@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import time
 
 db = SQLAlchemy()
 
@@ -8,8 +9,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(20), nullable=False)
     birthdate = db.Column(db.Date, nullable=False)
-    timetosleep = db.Column(db.String(8), nullable=True)
-    timetowakeup = db.Column(db.String(8), nullable=True)
+    timetosleep = db.Column(db.Time, nullable=True)
+    timetowakeup = db.Column(db.Time, nullable=True)
 
     # Relaciones
     routines = db.relationship("SleepRoutine", backref="user", lazy=True, cascade="all, delete-orphan")
@@ -29,8 +30,8 @@ class Record(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     userid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     day = db.Column(db.Date, nullable=False)
-    asleepat = db.Column(db.String(8), nullable=True)
-    awakeat = db.Column(db.String(8), nullable=True)
+    asleepat = db.Column(db.Time, nullable=True)
+    awakeat = db.Column(db.Time, nullable=True)
     note = db.Column(db.Text, nullable=True)
     
 # Tabla Advice

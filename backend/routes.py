@@ -1,3 +1,4 @@
+from datetime import datetime, time
 from flask import Blueprint, jsonify, request
 from models import db, User, SleepRoutine, Record, Advice, Exercise
 
@@ -37,15 +38,30 @@ def get_exercises():
 @api.route('/users', methods=['POST'])
 def create_user():
     data = request.json
+
+    # Convertir fecha
+    birthdate = None
+    if data.get("birthdate"):
+        birthdate = datetime.strptime(data["birthdate"], "%Y-%m-%d").date()
+
+    # Convertir horas
+    timetosleep = None
+    if data.get("timetosleep"):
+        timetosleep = datetime.strptime(data["timetosleep"], "%H:%M").time()
+
+    timetowakeup = None
+    if data.get("timetowakeup"):
+        timetowakeup = datetime.strptime(data["timetowakeup"], "%H:%M").time()
+
     user = User(
         name=data.get("name"),
-        birthdate=data.get("birthdate"),
-        timetosleep=data.get("timetosleep"),
-        timetowakeup=data.get("timetowakeup")
+        birthdate=birthdate,
+        timetosleep=timetosleep,
+        timetowakeup=timetowakeup
     )
     db.session.add(user)
     db.session.commit()
-    return jsonify({"message": "Usuario creado", "id": user.id})
+    return jsonify({"message": "✅ Usuario creado", "id": user.id}), 201
 
 @api.route('/users', methods=['GET'])
 def get_users():
@@ -90,16 +106,31 @@ def get_routines(userid):
 @api.route('/records', methods=['POST'])
 def create_record():
     data = request.json
+
+    # convertir fecha
+    day = None
+    if data.get("day"):
+        day = datetime.strptime(data["day"], "%Y-%m-%d").date()
+
+    # convertir horas
+    asleepat = None
+    if data.get("asleepat"):
+        asleepat = datetime.strptime(data["asleepat"], "%H:%M").time()
+
+    awakeat = None
+    if data.get("awakeat"):
+        awakeat = datetime.strptime(data["awakeat"], "%H:%M").time()
+
     record = Record(
         userid=data.get("userid"),
-        day=data.get("day"),
-        asleepat=data.get("asleepat"),
-        awakeat=data.get("awakeat"),
+        day=day,
+        asleepat=asleepat,
+        awakeat=awakeat,
         note=data.get("note")
     )
     db.session.add(record)
     db.session.commit()
-    return jsonify({"message": "Registro de sueño creado", "id": record.id})
+    return jsonify({"message": "✅ Registro de sueño creado", "id": record.id})
 
 @api.route('/records/<int:userid>', methods=['GET'])
 def get_records(userid):
@@ -108,9 +139,10 @@ def get_records(userid):
         {
             "id": r.id,
             "day": r.day.isoformat() if r.day else None,
-            "asleepat": r.asleepat,
-            "awakeat": r.awakeat,
+            "asleepat": r.asleepat.strftime("%H:%M") if r.asleepat else None,
+            "awakeat": r.awakeat.strftime("%H:%M") if r.awakeat else None,
             "note": r.note
         }
         for r in records
     ])
+
