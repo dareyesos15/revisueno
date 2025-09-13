@@ -10,7 +10,7 @@ function AdviceList() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4 text-primary">📚 Consejos de Higiene del Sueño</h2>
+      <h2 className="mb-4 main-color">📚 Consejos de Higiene del Sueño</h2>
       <div className="row g-3">
         {advice.map(a => (
           <div key={a.id} className="col-12 col-md-6">

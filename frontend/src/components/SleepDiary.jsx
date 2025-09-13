@@ -19,7 +19,7 @@ function SleepDiary() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4 text-warning">📖 Diario del Sueño</h2>
+      <h2 className="mb-4 main-color">📖 Diario del Sueño</h2>
       <form className="card p-4 shadow-sm" onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">📅 Día</label>

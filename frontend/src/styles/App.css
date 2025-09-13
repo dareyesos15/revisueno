@@ -1,5 +1,5 @@
 body {
-  background-color: #f5f5f5; /* Gris claro */
+  background-color: #dacbf1; /* Gris claro */
   font-family: 'Verdana', sans-serif;
   font-size: 18px; /* Texto grande */
 }
@@ -8,7 +8,24 @@ h1, .display-4 {
   font-weight: bold;
 }
 
+.main-color {
+    color: #5c1bbe;
+    font-weight: bold;
+}
+
 button.btn-lg {
   padding: 16px;
   font-size: 20px; /* botones grandes */
+}
+
+button.main-color {
+  background-color: #5c1bbe !important;
+  border-width: .2em;
+  border-color: #4a1496 !important;
+  color: white !important;
+}
+
+button.main-color:hover {
+  background-color: #4a1496 !important; /* un poco más oscuro al pasar el mouse */
+  border-color: #4a1496 !important;
 }

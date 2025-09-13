@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { createUser } from "../services/api"
+import { createUser } from "../../services/api"
 
 function UserLogin({ setSection, setCurrentUser, setShowForm, hasUsers }) {
   const [form, setForm] = useState({
@@ -22,7 +22,7 @@ function UserLogin({ setSection, setCurrentUser, setShowForm, hasUsers }) {
 
   return (
     <div className="container mt-5 text-center">
-      <h1 className="mb-4 text-success">📝 Crear Nuevo Usuario</h1>
+      <h1 className="mb-4 main-color">📝 Crear Nuevo Usuario</h1>
       <form
         className="card p-4 shadow-sm col-10 col-md-6 mx-auto"
         onSubmit={handleCreateUser}

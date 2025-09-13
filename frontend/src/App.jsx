@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react"
 import Start from "./components/Start"
 import Navbar from "./components/Navbar"
-import UserLogin from "./components/UserLogin"
-import UserSelect from "./components/UserSelect"
+import UserLogin from "./components/user/UserLogin"
+import UserSelect from "./components/user/UserSelect"
 import SleepRoutines from "./components/SleepRoutines"
 import Exercises from "./components/Exercises"
 import SleepDiary from "./components/SleepDiary"
@@ -50,7 +50,7 @@ function App() {
             />
           )
         )}
-        {section === "start" && <Start setSection={setSection} />}
+        {section === "start" && <Start setSection={setSection} currentUser={currentUser}/>}
         {section === "routines" && <SleepRoutines currentUser={currentUser} />}
         {section === "exercises" && <Exercises />}
         {section === "diary" && <SleepDiary currentUser={currentUser} />}

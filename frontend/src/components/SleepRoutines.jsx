@@ -13,7 +13,7 @@ function SleepRoutines() {
 
   return (
     <div className="container mt-4">
-      <h2 className="mb-4 text-info">🌙 Rutina Antes de Dormir</h2>
+      <h2 className="mb-4 main-color">🌙 Rutina Antes de Dormir</h2>
       <ul className="list-group">
         {tasks.map(task => (
           <li

@@ -30,3 +30,9 @@ npm install && npm run dev
 
 **frontend:** http://localhost:5173/
 **backend:** http://localhost:5000/
+
+## Por hacer
+
+- cambiar el componente Start.jsx
+- Mejorar el diseño
+- Agregar endpoints faltantes

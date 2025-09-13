@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { getUsers, deleteUser } from "../services/api"
+import { getUsers, deleteUser } from "../../services/api"
 
 function UserSelect({ setSection, setCurrentUser, setShowForm }) {
   const [users, setUsers] = useState([])
@@ -32,11 +32,11 @@ function UserSelect({ setSection, setCurrentUser, setShowForm }) {
 
   return (
     <div className="container mt-5 text-center">
-      <h1 className="mb-4 text-primary">👥 Selección de Usuario</h1>
+      <h1 className="mb-4 main-color">👥 Selección de Usuario</h1>
 
       {users.length > 0 ? (
         <>
-          <h4 className="mb-3">👤 ¿Cómo cuál usuario deseas ingresar?</h4>
+          <h4 className="mb-3">¿Cómo cuál usuario deseas ingresar?</h4>
           <ul className="list-group mb-4">
             {users.map((user) => (
               <li
