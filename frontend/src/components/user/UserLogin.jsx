@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { createUser } from "../../services/api"
 
-function UserLogin({ setSection, setCurrentUser, setShowForm, hasUsers }) {
+function UserLogin({ setSection, setCurrentUser, hasUsers }) {
   const [form, setForm] = useState({
     name: "",
     birthdate: "",
@@ -21,7 +21,7 @@ function UserLogin({ setSection, setCurrentUser, setShowForm, hasUsers }) {
   }
 
   return (
-    <div className="container mt-5 text-center">
+    <div className="container mt-5 text-center login">
       <h1 className="mb-4 main-color">📝 Crear Nuevo Usuario</h1>
       <form
         className="card p-4 shadow-sm col-10 col-md-6 mx-auto"
@@ -76,7 +76,7 @@ function UserLogin({ setSection, setCurrentUser, setShowForm, hasUsers }) {
           <button
             type="button"
             className="btn btn-secondary btn-lg w-100"
-            onClick={() => setShowForm(false)}
+            onClick={() => setSection("userSelect")}
           >
             🔄 Volver a Selección de Usuario
           </button>

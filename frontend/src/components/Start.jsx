@@ -1,7 +1,6 @@
 import React from "react"
 import Navbar from "./Navbar"
 import Moon from "../assets/moon.png"
-import "../styles/Start.css"
 
 function Start({ setSection, currentUser }) {
   // Determinar saludo según hora
@@ -22,8 +21,6 @@ function Start({ setSection, currentUser }) {
   return (
     <div>
       {/* Navbar visible también aquí */}
-      <Navbar setSection={setSection} />
-
       <div className="container text-center mt-5">
         {/* Logo + título en la misma línea */}
         <div className="d-flex justify-content-center align-items-center mb-4">

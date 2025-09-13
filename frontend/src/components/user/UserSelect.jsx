@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import { getUsers, deleteUser } from "../../services/api"
+import { getUsers, deleteUser, getRoutines, getRecords } from "../../services/api"
 
-function UserSelect({ setSection, setCurrentUser, setShowForm }) {
+function UserSelect({ setSection, hasUsers, setCurrentUser, setUserRoutines, setUserRecords }) {
   const [users, setUsers] = useState([])
 
   useEffect(() => {
@@ -13,8 +13,20 @@ function UserSelect({ setSection, setCurrentUser, setShowForm }) {
     setUsers(data)
   }
 
+  const loadUserRoutines = async (user) => {
+    const routines = await getRoutines(user.id)
+    setUserRoutines(routines)
+  }
+
+  const loadUserRecords = async (user) => {
+    const records = await getRecords(user.id)
+    setUserRecords(records)
+  }
+
   const handleSelectUser = (user) => {
     setCurrentUser(user)
+    loadUserRoutines(user)
+    loadUserRecords(user)
     setSection("start")
   }
 
@@ -25,8 +37,12 @@ function UserSelect({ setSection, setCurrentUser, setShowForm }) {
     if (confirmDelete) {
       await deleteUser(id)
       await loadUsers()
+
       setCurrentUser(null)
-      setSection("userLogin") // volver si el actual fue eliminado
+      setUserRoutines(null)
+      setUserRecords(null)
+      
+      setSection("userSelect") // volver si el actual fue eliminado
     }
   }
 
@@ -35,7 +51,7 @@ function UserSelect({ setSection, setCurrentUser, setShowForm }) {
       <h1 className="mb-4 main-color">👥 Selección de Usuario</h1>
 
       {users.length > 0 ? (
-        <>
+        <div>
           <h4 className="mb-3">¿Cómo cuál usuario deseas ingresar?</h4>
           <ul className="list-group mb-4">
             {users.map((user) => (
@@ -58,16 +74,16 @@ function UserSelect({ setSection, setCurrentUser, setShowForm }) {
               </li>
             ))}
           </ul>
-          <button
-            className="btn btn-primary btn-lg"
-            onClick={() => setShowForm(true)}
-          >
-            ➕ Crear Nuevo Usuario
-          </button>
-        </>
+        </div>
       ) : (
-        <p className="fs-5">⚠️ No hay usuarios registrados</p>
+        <p className="fs-5 m-5">⚠️ No hay usuarios registrados</p>
       )}
+      <button
+        className="btn btn-primary btn-lg"
+        onClick={() => setSection("userLogin")}
+      >
+        Crear Nuevo Usuario
+      </button>
     </div>
   )
 }
