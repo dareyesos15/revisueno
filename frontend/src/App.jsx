@@ -1,74 +1,77 @@
 import React, { useState, useEffect } from "react"
-import Start from "./components/Start"
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom"
+
 import Navbar from "./components/Navbar"
-import UserLogin from "./components/user/UserLogin"
+import Start from "./components/Start"
+import UserRegister from "./components/user/UserRegister"
 import UserSelect from "./components/user/UserSelect"
 import SleepRoutines from "./components/SleepRoutines"
 import Exercises from "./components/Exercises"
 import SleepDiary from "./components/SleepDiary"
 import AdviceList from "./components/AdviceList"
 import Relaxation from "./components/Relaxation"
+import UserEdit from "./components/user/UserEdit"
 import { getUsers } from "./services/api"
 
-import './styles/App.css'
+import "./styles/App.css"
 
-function App() {
-  //Declaracion de variables globales con useState
-  const [section, setSection] = useState("userSelect") //Seleccionar componente a mostrar
-
-  const [currentUser, setCurrentUser] = useState(null) // Guardar el usuario seleccionado
-  const [userRoutines, setUserRoutines] = useState(null) //Guardar rutinas del usuario
-  const [userRecords, setUserRecords] = useState(null) // Guardar regsitros de sueño del usuario
-
-  const [hasUsers, setHasUsers] = useState(false) //Verificar si existen usuario en la BD
-
-  useEffect(() => {
-    getUsers().then(data => {
-      setHasUsers(data.length > 0)
-      if (data.length === 0) {
-        setSection("userLogin") // si no hay usuarios, mostrar directamente formulario
-      }
-    })
-  }, [])
+// 🔹 Layout controla visibilidad del Navbar
+function Layout({ currentUser, setCurrentUser, children }) {
+  const location = useLocation()
+  const hideNavbar = location.pathname === "/register" || location.pathname === "/select"
 
   return (
-    <div>
-      {/* Solo mostrar barra de navegación cuando se haya seleccionado un usuario */}
-      {section !== "userLogin" && section !== "userSelect" && currentUser !== null &&
-        <Navbar setSection={setSection} currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      }
+    <>
+      {!hideNavbar && currentUser && (
+        <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
+      )}
+      {children}
+    </>
+  )
+}
 
-      {/* Seleccion del componente */}
-      <div>
-        {section === "userLogin" &&
-          <UserLogin setSection={setSection} setCurrentUser={setCurrentUser} hasUsers={hasUsers} /> 
-        }
-        {section === "userSelect" && 
-          <UserSelect setSection={setSection} setCurrentUser={setCurrentUser} setUserRecords={setUserRecords} setUserRoutines={setUserRoutines} hasUsers={hasUsers}/>
-        }
-        {section === "start" && 
-          <Start setSection={setSection} currentUser={currentUser} setCurrentUser={setCurrentUser} />
-        }
-        {section === "routines" && 
-          <SleepRoutines currentUser={currentUser} />
-        }
-        {section === "exercises" && 
-          <Exercises />
-        }
-        {section === "diary" && 
-          <SleepDiary currentUser={currentUser} />
-        }
-        {section === "advice" && 
-          <AdviceList />
-        }
-        {section === "relaxation" && 
-          <Relaxation />
-        }
-        {section === "userEdit" && 
-          <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} />
-        }
-      </div>
-    </div>
+function App() {
+  const [currentUser, setCurrentUser] = useState(null)
+  const [hasUsers, setHasUsers] = useState(false)
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem("currentUser")
+    if (savedUser) {
+      setCurrentUser(JSON.parse(savedUser))
+    }
+    getUsers().then(data => setHasUsers(data.length > 0))
+  }, [])
+
+  useEffect(() => {
+    if (currentUser) {
+      localStorage.setItem("currentUser", JSON.stringify(currentUser))
+    } else {
+      localStorage.removeItem("currentUser")
+    }
+  }, [currentUser])
+
+  return (
+    <Router>
+      <Layout currentUser={currentUser} setCurrentUser={setCurrentUser}>
+        <Routes>
+          {/* Público */}
+          <Route path="/register" element={<UserRegister setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
+          <Route path="/select" element={<UserSelect setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
+
+          {/* Privadas */}
+          <Route path="/start" element={currentUser ? <Start currentUser={currentUser} /> : <Navigate to="/select" />} />
+          <Route path="/routines" element={currentUser ? <SleepRoutines currentUser={currentUser} /> : <Navigate to="/select" />} />
+          <Route path="/exercises" element={currentUser ? <Exercises /> : <Navigate to="/select" />} />
+          <Route path="/diary" element={currentUser ? <SleepDiary currentUser={currentUser} /> : <Navigate to="/select" />} />
+          <Route path="/advice" element={currentUser ? <AdviceList /> : <Navigate to="/select" />} />
+          <Route path="/relaxation" element={currentUser ? <Relaxation /> : <Navigate to="/select" />} />
+          <Route path="/userEdit" element={currentUser ? <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/select" />} />
+
+          {/* Redirección por defecto */}
+          <Route path="*" element={<Navigate to={currentUser ? "/start" : hasUsers ? "/select" : "/register"} />} />
+        </Routes>
+      </Layout>
+    </Router>
   )
 }
 

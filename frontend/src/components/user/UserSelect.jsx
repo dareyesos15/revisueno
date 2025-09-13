@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { getUsers, deleteUser, getRoutines, getRecords } from "../../services/api"
+import { useNavigate } from "react-router-dom"
+import { getUsers, deleteUser } from "../../services/api"
 
-function UserSelect({ setSection, hasUsers, setCurrentUser, setUserRoutines, setUserRecords }) {
+function UserSelect({ hasUsers, setCurrentUser }) {
   const [users, setUsers] = useState([])
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadUsers()
@@ -13,21 +15,9 @@ function UserSelect({ setSection, hasUsers, setCurrentUser, setUserRoutines, set
     setUsers(data)
   }
 
-  const loadUserRoutines = async (user) => {
-    const routines = await getRoutines(user.id)
-    setUserRoutines(routines)
-  }
-
-  const loadUserRecords = async (user) => {
-    const records = await getRecords(user.id)
-    setUserRecords(records)
-  }
-
   const handleSelectUser = (user) => {
     setCurrentUser(user)
-    loadUserRoutines(user)
-    loadUserRecords(user)
-    setSection("start")
+    navigate("/start") // ir al inicio con ese usuario
   }
 
   const handleDeleteUser = async (id, name) => {
@@ -37,12 +27,10 @@ function UserSelect({ setSection, hasUsers, setCurrentUser, setUserRoutines, set
     if (confirmDelete) {
       await deleteUser(id)
       await loadUsers()
-
       setCurrentUser(null)
-      setUserRoutines(null)
-      setUserRecords(null)
-      
-      setSection("userSelect") // volver si el actual fue eliminado
+
+      // si eliminamos al actual, volver a selección
+      navigate("/select")
     }
   }
 
@@ -78,9 +66,10 @@ function UserSelect({ setSection, hasUsers, setCurrentUser, setUserRoutines, set
       ) : (
         <p className="fs-5 m-5">⚠️ No hay usuarios registrados</p>
       )}
+
       <button
-        className="btn btn-primary btn-lg"
-        onClick={() => setSection("userLogin")}
+        className="btn main-color btn-lg"
+        onClick={() => navigate("/register")}
       >
         Crear Nuevo Usuario
       </button>

@@ -1,13 +1,16 @@
 import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { createUser } from "../../services/api"
 
-function UserLogin({ setSection, setCurrentUser, hasUsers }) {
+function UserRegister({ setCurrentUser, hasUsers }) {
   const [form, setForm] = useState({
     name: "",
     birthdate: "",
     timetosleep: "",
     timetowakeup: ""
   })
+
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -17,7 +20,7 @@ function UserLogin({ setSection, setCurrentUser, hasUsers }) {
     e.preventDefault()
     const newUser = await createUser(form)
     setCurrentUser({ id: newUser.id, ...form })
-    setSection("start")
+    navigate("/start") // ir directamente al inicio
   }
 
   return (
@@ -76,7 +79,7 @@ function UserLogin({ setSection, setCurrentUser, hasUsers }) {
           <button
             type="button"
             className="btn btn-secondary btn-lg w-100"
-            onClick={() => setSection("userSelect")}
+            onClick={() => navigate("/select")}
           >
             🔄 Volver a Selección de Usuario
           </button>
@@ -86,4 +89,4 @@ function UserLogin({ setSection, setCurrentUser, hasUsers }) {
   )
 }
 
-export default UserLogin
+export default UserRegister
