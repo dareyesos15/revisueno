@@ -1,6 +1,6 @@
 from datetime import datetime, time
 from flask import Blueprint, jsonify, request
-from models import db, User, SleepRoutine, Record, Advice, Exercise
+from models import *
 
 api = Blueprint("api", __name__)
 
@@ -118,18 +118,6 @@ def delete_user(userid):
 # =========================
 # SLEEP ROUTINES
 # =========================
-@api.route('/routines', methods=['POST'])
-def create_routine():
-    data = request.json
-    routine = SleepRoutine(
-        userid=data.get("userid"),
-        task=data.get("task"),
-        description=data.get("description")
-    )
-    db.session.add(routine)
-    db.session.commit()
-    return jsonify({"message": "Rutina creada", "id": routine.id})
-
 @api.route('/routines/<int:userid>', methods=['GET'])
 def get_routines(userid):
     routines = SleepRoutine.query.filter_by(userid=userid).all()
@@ -137,13 +125,48 @@ def get_routines(userid):
         {"id": r.id, "task": r.task, "description": r.description}
         for r in routines
     ])
+    
+@api.route('/routines', methods=['POST'])
+def create_routine():
+    data = request.json
+    try:
+        routine = SleepRoutine(
+            userid=int(data.get("userid")),
+            task=data.get("task"),
+            description=data.get("description")
+        )
+        db.session.add(routine)
+        db.session.commit()
+        return jsonify({"message": "Rutina creada ✅", "id": routine.id}), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 400
+
 
 # =========================
 # SLEEP RECORDS (Diario del sueño)
 # =========================
+@api.route('/records/<int:userid>', methods=['GET'])
+def get_records(userid):
+    records = Record.query.filter_by(userid=userid).all()
+    return jsonify([
+        {
+            "id": r.id,
+            "day": r.day.isoformat() if r.day else None,
+            "asleepat": r.asleepat.strftime("%H:%M") if r.asleepat else None,
+            "awakeat": r.awakeat.strftime("%H:%M") if r.awakeat else None,
+            "note": r.note
+        }
+        for r in records
+    ])
+    
 @api.route('/records', methods=['POST'])
 def create_record():
-    data = request.json
+    from datetime import datetime
+    data = request.get_json(force=True)  # asegura que sea un dict
+
+    if not isinstance(data, dict):
+        return jsonify({"error": "Formato JSON inválido, se esperaba un objeto."}), 400
 
     # convertir fecha
     day = None
@@ -160,7 +183,7 @@ def create_record():
         awakeat = datetime.strptime(data["awakeat"], "%H:%M").time()
 
     record = Record(
-        userid=data.get("userid"),
+        userid=int(data.get("userid")),
         day=day,
         asleepat=asleepat,
         awakeat=awakeat,
@@ -168,19 +191,39 @@ def create_record():
     )
     db.session.add(record)
     db.session.commit()
-    return jsonify({"message": "Registro de sueño creado", "id": record.id})
+    return jsonify({"message": "Registro de sueño creado", "id": record.id}), 201
 
-@api.route('/records/<int:userid>', methods=['GET'])
-def get_records(userid):
-    records = Record.query.filter_by(userid=userid).all()
-    return jsonify([
-        {
-            "id": r.id,
-            "day": r.day.isoformat() if r.day else None,
-            "asleepat": r.asleepat.strftime("%H:%M") if r.asleepat else None,
-            "awakeat": r.awakeat.strftime("%H:%M") if r.awakeat else None,
-            "note": r.note
-        }
-        for r in records
-    ])
+# 🟡 Actualizar un registro de sueño
+@api.route('/records/<int:record_id>', methods=['PUT'])
+def update_record(record_id):
+    record = Record.query.get(record_id)
+    if not record:
+        return jsonify({"error": "Registro no encontrado"}), 404
+
+    data = request.json
+
+    if "day" in data:
+        record.day = datetime.strptime(data["day"], "%Y-%m-%d").date()
+    if "asleepat" in data:
+        record.asleepat = datetime.strptime(data["asleepat"], "%H:%M").time()
+    if "awakeat" in data:
+        record.awakeat = datetime.strptime(data["awakeat"], "%H:%M").time()
+    if "note" in data:
+        record.note = data["note"]
+
+    db.session.commit()
+    return jsonify({"message": "Registro actualizado"})
+
+
+# 🔴 Eliminar un registro de sueño
+@api.route('/records/<int:record_id>', methods=['DELETE'])
+def delete_record(record_id):
+    record = Record.query.get(record_id)
+    if not record:
+        return jsonify({"error": "Registro no encontrado"}), 404
+
+    db.session.delete(record)
+    db.session.commit()
+    return jsonify({"message": "Registro eliminado"})
+
 

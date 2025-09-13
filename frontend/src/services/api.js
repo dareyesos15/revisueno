@@ -71,16 +71,45 @@ export async function getRoutines(userid) {
 // ====================
 // Registros (Record)
 // ====================
-export async function createRecord(record) {
+export async function getRecords(userid) {
+  const res = await fetch(`${API_URL}/records/${userid}`)
+  return res.json()
+}
+
+// Crear registro
+export async function createRecord(userid, record) {
   const res = await fetch(`${API_URL}/records`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(record)
+    body: JSON.stringify({
+      userid,
+      day: record.day,
+      asleepat: record.asleepat,
+      awakeat: record.awakeat,
+      note: record.note
+    })
   })
   return res.json()
 }
 
-export async function getRecords(userid) {
-  const res = await fetch(`${API_URL}/records/${userid}`)
+// Editar registro
+export async function updateRecord(id, userid, record) {
+  const res = await fetch(`${API_URL}/records/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      userid,
+      day: record.day,
+      asleepat: record.asleepat,
+      awakeat: record.awakeat,
+      note: record.note
+    })
+  })
+  return res.json()
+}
+
+// Eliminar registro
+export async function deleteRecord(id) {
+  const res = await fetch(`${API_URL}/records/${id}`, { method: "DELETE" })
   return res.json()
 }
