@@ -38,16 +38,16 @@ function Start({ setSection, currentUser }) {
 
         <div className="d-grid gap-3 col-10 col-md-6 mx-auto">
           <button className="btn main-color btn-lg" onClick={() => setSection("diary")}>
-            📝 Registrar Sueño
+            Registrar Sueño
           </button>
           <button className="btn main-color btn-lg" onClick={() => setSection("routines")}>
-            🌙 Rutina Antes de Dormir
+            Rutina Antes de Dormir
           </button>
           <button className="btn main-color btn-lg" onClick={() => setSection("exercises")}>
-            🧘 Ejercicios de Relajación
+            Ejercicios de Relajación
           </button>
           <button className="btn main-color btn-lg" onClick={() => setSection("advice")}>
-            📚 Consejos
+            Consejos para Dormir Bien
           </button>
         </div>
 

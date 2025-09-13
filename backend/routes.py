@@ -35,6 +35,20 @@ def get_exercises():
 # =========================
 # USERS
 # =========================
+@api.route('/users', methods=['GET'])
+def get_users():
+    users = User.query.all()
+    return jsonify([
+        {
+            "id": u.id,
+            "name": u.name,
+            "birthdate": u.birthdate.isoformat() if u.birthdate else None,
+            "timetosleep": u.timetosleep.strftime("%H:%M") if u.timetosleep else None,
+            "timetowakeup": u.timetowakeup.strftime("%H:%M") if u.timetowakeup else None
+        }
+        for u in users
+    ])
+    
 @api.route('/users', methods=['POST'])
 def create_user():
     data = request.json
@@ -62,20 +76,33 @@ def create_user():
     db.session.add(user)
     db.session.commit()
     return jsonify({"message": "Usuario creado", "id": user.id}), 201
+    
+@api.route('/users/<int:userid>', methods=['PUT'])
+def update_user(userid):
+    user = User.query.get(userid)
+    if not user:
+        return jsonify({"message": "❌ Usuario no encontrado"}), 404
 
-@api.route('/users', methods=['GET'])
-def get_users():
-    users = User.query.all()
-    return jsonify([
-        {
-            "id": u.id,
-            "name": u.name,
-            "birthdate": u.birthdate.isoformat() if u.birthdate else None,
-            "timetosleep": u.timetosleep.strftime("%H:%M") if u.timetosleep else None,
-            "timetowakeup": u.timetowakeup.strftime("%H:%M") if u.timetowakeup else None
-        }
-        for u in users
-    ])
+    data = request.json
+
+    from datetime import datetime
+
+    # actualizar datos
+    if "name" in data:
+        user.name = data["name"]
+
+    if "birthdate" in data and data["birthdate"]:
+        user.birthdate = datetime.strptime(data["birthdate"], "%Y-%m-%d").date()
+
+    if "timetosleep" in data and data["timetosleep"]:
+        user.timetosleep = datetime.strptime(data["timetosleep"], "%H:%M").time()
+
+    if "timetowakeup" in data and data["timetowakeup"]:
+        user.timetowakeup = datetime.strptime(data["timetowakeup"], "%H:%M").time()
+
+    db.session.commit()
+    return jsonify({"message": "Usuario actualizado"})
+
 
 @api.route('/users/<int:userid>', methods=['DELETE'])
 def delete_user(userid):

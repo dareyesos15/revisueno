@@ -19,6 +19,11 @@ export async function getExercises() {
 // ====================
 // Usuarios (User)
 // ====================
+export async function getUsers() {
+  const res = await fetch(`${API_URL}/users`)
+  return res.json()
+}
+
 export async function createUser(user) {
   const res = await fetch(`${API_URL}/users`, {
     method: "POST",
@@ -28,10 +33,15 @@ export async function createUser(user) {
   return res.json()
 }
 
-export async function getUsers() {
-  const res = await fetch(`${API_URL}/users`)
+export async function updateUser(userid, userData) {
+  const res = await fetch(`${API_URL}/users/${userid}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData)
+  })
   return res.json()
 }
+
 
 export async function deleteUser(userid) {
   const res = await fetch(`${API_URL}/users/${userid}`, {

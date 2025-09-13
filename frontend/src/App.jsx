@@ -33,7 +33,7 @@ function App() {
         <Navbar setSection={setSection} />
       )}
 
-      <div style={{ padding: "20px" }}>
+      <div>
         {section === "userLogin" && (
           showForm ? (
             <UserLogin
