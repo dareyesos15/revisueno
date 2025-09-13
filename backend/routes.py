@@ -61,7 +61,7 @@ def create_user():
     )
     db.session.add(user)
     db.session.commit()
-    return jsonify({"message": "✅ Usuario creado", "id": user.id}), 201
+    return jsonify({"message": "Usuario creado", "id": user.id}), 201
 
 @api.route('/users', methods=['GET'])
 def get_users():
@@ -71,11 +71,22 @@ def get_users():
             "id": u.id,
             "name": u.name,
             "birthdate": u.birthdate.isoformat() if u.birthdate else None,
-            "timetosleep": u.timetosleep,
-            "timetowakeup": u.timetowakeup
+            "timetosleep": u.timetosleep.strftime("%H:%M") if u.timetosleep else None,
+            "timetowakeup": u.timetowakeup.strftime("%H:%M") if u.timetowakeup else None
         }
         for u in users
     ])
+
+@api.route('/users/<int:userid>', methods=['DELETE'])
+def delete_user(userid):
+    user = User.query.get(userid)
+    if not user:
+        return jsonify({"message": "Usuario no encontrado"}), 404
+    
+    db.session.delete(user)  # gracias a cascade="all, delete-orphan" se eliminan registros asociados
+    db.session.commit()
+    return jsonify({"message": f"Usuario {user.name} eliminado correctamente"})
+
 
 # =========================
 # SLEEP ROUTINES
@@ -130,7 +141,7 @@ def create_record():
     )
     db.session.add(record)
     db.session.commit()
-    return jsonify({"message": "✅ Registro de sueño creado", "id": record.id})
+    return jsonify({"message": "Registro de sueño creado", "id": record.id})
 
 @api.route('/records/<int:userid>', methods=['GET'])
 def get_records(userid):

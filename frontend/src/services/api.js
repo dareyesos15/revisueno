@@ -33,6 +33,14 @@ export async function getUsers() {
   return res.json()
 }
 
+export async function deleteUser(userid) {
+  const res = await fetch(`${API_URL}/users/${userid}`, {
+    method: "DELETE"
+  })
+  return res.json()
+}
+
+
 // ====================
 // Rutinas (SleepRoutine)
 // ====================
