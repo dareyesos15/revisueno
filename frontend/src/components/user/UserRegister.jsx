@@ -25,13 +25,13 @@ function UserRegister({ setCurrentUser, hasUsers }) {
 
   return (
     <div className="container mt-5 text-center login">
-      <h1 className="mb-4 main-color">📝 Crear Nuevo Usuario</h1>
+      <h1 className="mb-4 main-color">Crear Nuevo Usuario</h1>
       <form
         className="card p-4 shadow-sm col-10 col-md-6 mx-auto"
         onSubmit={handleCreateUser}
       >
         <div className="mb-3">
-          <label className="form-label">👤 Nombre</label>
+          <label className="form-label">Nombre</label>
           <input
             type="text"
             className="form-control"
@@ -42,7 +42,7 @@ function UserRegister({ setCurrentUser, hasUsers }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">🎂 Fecha de nacimiento</label>
+          <label className="form-label">Fecha de nacimiento</label>
           <input
             type="date"
             className="form-control"
@@ -53,7 +53,7 @@ function UserRegister({ setCurrentUser, hasUsers }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">🌙 Hora de Dormir</label>
+          <label className="form-label">Hora de Dormir</label>
           <input
             type="time"
             className="form-control"
@@ -63,7 +63,7 @@ function UserRegister({ setCurrentUser, hasUsers }) {
           />
         </div>
         <div className="mb-3">
-          <label className="form-label">🌞 Hora de Despertar</label>
+          <label className="form-label">Hora de Despertar</label>
           <input
             type="time"
             className="form-control"
@@ -73,7 +73,7 @@ function UserRegister({ setCurrentUser, hasUsers }) {
           />
         </div>
         <button type="submit" className="btn btn-success btn-lg w-100 mb-3">
-          ✅ Crear Usuario
+          Crear Usuario
         </button>
         {hasUsers && (
           <button
@@ -81,7 +81,7 @@ function UserRegister({ setCurrentUser, hasUsers }) {
             className="btn btn-secondary btn-lg w-100"
             onClick={() => navigate("/select")}
           >
-            🔄 Volver a Selección de Usuario
+            Volver a Selección de Usuario
           </button>
         )}
       </form>

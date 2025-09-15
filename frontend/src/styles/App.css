@@ -31,26 +31,19 @@ button.btn-lg {
   margin-top: 3em;
 }
 
-.separator {
-  margin-bottom: 8em;
-}
-
 .logo {
   width: 50px;
   height: 50px;
 }
 
-
-
 /* Barra de navegación */
-.navbar-settings{
+.navbar-settings {
   background-color: #7d3cff;
-  position: fixed;
-  top: 0;
   width: 100%;
-  z-index: 1000;
   padding: 1.5em 1em;
 }
 
-
-
+/* Separador para que el contenido no quede pegado */
+.separator {
+  margin-bottom: 3em; /* antes era 8em */
+}

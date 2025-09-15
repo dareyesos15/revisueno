@@ -36,7 +36,7 @@ function UserSelect({ hasUsers, setCurrentUser }) {
 
   return (
     <div className="container mt-5 text-center">
-      <h1 className="mb-4 main-color">👥 Selección de Usuario</h1>
+      <h1 className="mb-4 main-color">Selección de Usuario</h1>
 
       {users.length > 0 ? (
         <div>
@@ -57,7 +57,7 @@ function UserSelect({ hasUsers, setCurrentUser }) {
                   className="btn btn-danger btn-sm"
                   onClick={() => handleDeleteUser(user.id, user.name)}
                 >
-                  🗑️
+                  Eliminar
                 </button>
               </li>
             ))}

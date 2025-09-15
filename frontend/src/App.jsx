@@ -6,10 +6,8 @@ import Start from "./components/Start"
 import UserRegister from "./components/user/UserRegister"
 import UserSelect from "./components/user/UserSelect"
 import SleepRoutines from "./components/SleepRoutines"
-import Exercises from "./components/Exercises"
 import SleepDiary from "./components/SleepDiary"
 import AdviceList from "./components/AdviceList"
-import Relaxation from "./components/Relaxation"
 import UserEdit from "./components/user/UserEdit"
 import { getUsers } from "./services/api"
 
@@ -61,10 +59,8 @@ function App() {
           {/* Privadas */}
           <Route path="/start" element={currentUser ? <Start currentUser={currentUser} /> : <Navigate to="/select" />} />
           <Route path="/routines" element={currentUser ? <SleepRoutines currentUser={currentUser} /> : <Navigate to="/select" />} />
-          <Route path="/exercises" element={currentUser ? <Exercises /> : <Navigate to="/select" />} />
           <Route path="/diary" element={currentUser ? <SleepDiary currentUser={currentUser} /> : <Navigate to="/select" />} />
           <Route path="/advice" element={currentUser ? <AdviceList /> : <Navigate to="/select" />} />
-          <Route path="/relaxation" element={currentUser ? <Relaxation /> : <Navigate to="/select" />} />
           <Route path="/userEdit" element={currentUser ? <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/select" />} />
 
           {/* Redirección por defecto */}

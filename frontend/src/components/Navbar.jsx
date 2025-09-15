@@ -69,15 +69,15 @@ function Navbar({ currentUser, setCurrentUser }) {
           {/* DERECHA: Dropdown de usuario */}
           <div className="dropdown">
             <button
-              className="btn btn-light dropdown-toggle w-100"
+              className="btn btn-light dropdown-toggle"
               type="button"
-              id="userMenu"
+              id="userMenuButton"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               {currentUser?.name || "Usuario"}
             </button>
-            <ul className="dropdown-menu dropdown-menu-end w-100" aria-labelledby="userMenu">
+            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
               <li>
                 <button className="dropdown-item" onClick={handleLogout}>
                   🚪 Cerrar sesión
@@ -90,6 +90,7 @@ function Navbar({ currentUser, setCurrentUser }) {
               </li>
             </ul>
           </div>
+
         </div>
       </nav>
     </div>
