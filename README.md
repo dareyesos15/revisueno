@@ -11,7 +11,7 @@ Recomendaciones fáciles de seguir para mejorar la higiene del sueño y crear un
 - **🧘 Rutinas de ejercicios de relajación**
 Una serie de ejercicios suaves y guiados para relajarse antes de dormir y reducir el estrés acumulado del día.
 
-**📖 Registro del sueño (Diario del Sueño)**
+- **📖 Registro del sueño (Diario del Sueño)**
 Permite al usuario guardar la hora en que se acuesta, se despierta y anotar observaciones.
 Además, calcula automáticamente el tiempo total de descanso de cada noche.
 
