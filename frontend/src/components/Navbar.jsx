@@ -1,15 +1,28 @@
-import React from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import Moon from "../assets/moon.png"
 
 function Navbar({ currentUser, setCurrentUser }) {
   const navigate = useNavigate()
+  const [showDropdown, setShowDropdown] = useState(false)
+  const dropdownRef = useRef(null)
 
   const handleLogout = () => {
     setCurrentUser(null)
     localStorage.removeItem("currentUser") // limpiar también localStorage
     navigate("/select") // volver a selección de usuario
   }
+
+  // Cierra el menú si haces click fuera
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   return (
     <div className="separator">
@@ -30,6 +43,7 @@ function Navbar({ currentUser, setCurrentUser }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-house" viewBox="0 0 16 16">
                 <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6.647 6.647a.5.5 0 0 0 .708.708L2 7.207V14.5A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V7.207l.293.294a.5.5 0 0 0 .708-.708L8.354 1.146z" />
               </svg>
+              
               <span>Inicio</span>
             </Link>
 
@@ -41,6 +55,7 @@ function Navbar({ currentUser, setCurrentUser }) {
                 <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
                 <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
               </svg>
+
               <span>Diario</span>
             </Link>
 
@@ -52,6 +67,7 @@ function Navbar({ currentUser, setCurrentUser }) {
                 <path fillRule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2z" />
                 <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466" />
               </svg>
+
               <span>Rutina</span>
             </Link>
 
@@ -62,35 +78,40 @@ function Navbar({ currentUser, setCurrentUser }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-lightbulb" viewBox="0 0 16 16">
                 <path d="M2 6a6 6 0 1 1 10.174 4.31c-.203.196-.359.4-.453.619l-.762 1.769A.5.5 0 0 1 10.5 13a.5.5 0 0 1 0 1 .5.5 0 0 1 0 1l-.224.447a1 1 0 0 1-.894.553H6.618a1 1 0 0 1-.894-.553L5.5 15a.5.5 0 0 1 0-1 .5.5 0 0 1 0-1 .5.5 0 0 1-.46-.302l-.761-1.77a2 2 0 0 0-.453-.618A5.98 5.98 0 0 1 2 6m6-5a5 5 0 0 0-3.479 8.592c.263.254.514.564.676.941L5.83 12h4.342l.632-1.467c.162-.377.413-.687.676-.941A5 5 0 0 0 8 1" />
               </svg>
+
               <span>Consejos</span>
             </Link>
           </div>
 
           {/* DERECHA: Dropdown de usuario */}
-          <div className="dropdown">
+          <div className="dropdown" ref={dropdownRef}>
             <button
               className="btn btn-light dropdown-toggle"
               type="button"
               id="userMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
+              aria-expanded={showDropdown}
+              onClick={() => setShowDropdown((v) => !v)}
             >
               {currentUser?.name || "Usuario"}
             </button>
-            <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
-              <li>
-                <button className="dropdown-item" onClick={handleLogout}>
-                  🚪 Cerrar sesión
-                </button>
-              </li>
+
+            <ul
+              className={`dropdown-menu dropdown-menu-end${showDropdown ? " show" : ""}`}
+              aria-labelledby="userMenuButton"
+            >
               <li>
                 <Link className="dropdown-item" to="/userEdit">
-                  ✏️ Editar usuario
+                  Editar usuario
                 </Link>
+              </li>
+
+              <li>
+                <button className="dropdown-item" onClick={handleLogout}>
+                  Cerrar sesión
+                </button>
               </li>
             </ul>
           </div>
-
         </div>
       </nav>
     </div>

@@ -78,10 +78,10 @@ function UserRegister({ setCurrentUser, hasUsers }) {
         {hasUsers && (
           <button
             type="button"
-            className="btn btn-secondary btn-lg w-100"
+            className="btn main-color btn-lg"
             onClick={() => navigate("/select")}
           >
-            Volver a Selección de Usuario
+            Ir a Selección de Usuario
           </button>
         )}
       </form>

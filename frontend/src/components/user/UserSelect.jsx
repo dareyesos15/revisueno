@@ -38,19 +38,17 @@ function UserSelect({ hasUsers, setCurrentUser }) {
     <div className="container mt-5 text-center">
       <h1 className="mb-4 main-color">Selección de Usuario</h1>
 
-      {users.length > 0 ? (
+      {hasUsers ? (
         <div>
           <h4 className="mb-3">¿Cómo cuál usuario deseas ingresar?</h4>
           <ul className="list-group mb-4">
             {users.map((user) => (
               <li
                 key={user.id}
-                className="list-group-item d-flex justify-content-between align-items-center fs-5"
+                className="user-list list-group-item d-flex justify-content-between align-items-center fs-5"
+                onClick={() => handleSelectUser(user)}
               >
-                <span
-                  style={{ cursor: "pointer" }}
-                  onClick={() => handleSelectUser(user)}
-                >
+                <span>
                   {user.name} ({user.birthdate})
                 </span>
                 <button

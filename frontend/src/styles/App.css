@@ -10,6 +10,11 @@ body {
     font-weight: bold;
 }
 
+.second-color {
+  color: #1d19ff;
+  font-weight: bold;
+}
+
 button.main-color {
   background-color: #5c1bbe !important;
   border-width: .2em;
@@ -43,7 +48,21 @@ button.btn-lg {
   padding: 1.5em 1em;
 }
 
+.dropdown-menu {
+  max-width: 90vw;
+  min-width: 180px;
+  right: 0;
+  left: auto;
+  overflow-x: auto;
+}
+
 /* Separador para que el contenido no quede pegado */
 .separator {
   margin-bottom: 3em; /* antes era 8em */
+}
+
+/* Estilos componente UserSelect*/
+
+.user-list {
+  cursor: pointer;
 }

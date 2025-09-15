@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom"
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom"
 
-import Navbar from "./components/Navbar"
+import Layout from "./components/Layout"
 import Start from "./components/Start"
 import UserRegister from "./components/user/UserRegister"
 import UserSelect from "./components/user/UserSelect"
@@ -13,34 +13,65 @@ import { getUsers } from "./services/api"
 
 import "./styles/App.css"
 
-// 🔹 Layout controla visibilidad del Navbar
-function Layout({ currentUser, setCurrentUser, children }) {
-  const location = useLocation()
-  const hideNavbar = location.pathname === "/register" || location.pathname === "/select"
-
-  return (
-    <>
-      {!hideNavbar && currentUser && (
-        <Navbar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-      )}
-      {children}
-    </>
-  )
-}
-
 function App() {
-  const [currentUser, setCurrentUser] = useState(null)
-  const [hasUsers, setHasUsers] = useState(false)
-
-  useEffect(() => {
+  const [currentUser, setCurrentUser] = useState(() => {
     const savedUser = localStorage.getItem("currentUser")
-    if (savedUser) {
-      setCurrentUser(JSON.parse(savedUser))
+    try {
+      // Intenta parsear el usuario. Si es inválido o "null", retorna null.
+      const user = JSON.parse(savedUser)
+      return user && typeof user === 'object' ? user : null
+    } catch (e) {
+      // Si hay un error en el parseo, retorna null.
+      return null
     }
-    getUsers().then(data => setHasUsers(data.length > 0))
-  }, [])
+  })
+
+  const [hasUsers, setHasUsers] = useState(false)
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
+    // Este efecto se encarga de la navegación si ya hay un usuario logueado
+    if (currentUser) {
+      if (
+        location.pathname === "/" ||
+        location.pathname === "/select" ||
+        location.pathname === "/register"
+      ) {
+        navigate("/start", { replace: true })
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []) // Se ejecuta solo una vez al montar el componente
+
+  useEffect(() => {
+    // Si no hay usuario, verificamos si existen usuarios para redirigir
+    if (!currentUser) {
+      getUsers().then(data => {
+        const usersExist = data.length > 0
+        setHasUsers(usersExist)
+        if (
+          !usersExist &&
+          location.pathname !== "/register"
+        ) {
+          navigate("/register", { replace: true })
+        } else if (
+          usersExist &&
+          location.pathname !== "/select" &&
+          location.pathname !== "/register"
+        ) {
+          navigate("/select", { replace: true })
+        }
+      })
+    } else {
+      // Si hay usuario, solo actualizamos el estado hasUsers
+      getUsers().then(data => setHasUsers(data.length > 0))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser, location.pathname])
+
+  useEffect(() => {
+    // Este efecto se encarga de mantener sincronizado el localStorage
     if (currentUser) {
       localStorage.setItem("currentUser", JSON.stringify(currentUser))
     } else {
@@ -49,25 +80,23 @@ function App() {
   }, [currentUser])
 
   return (
-    <Router>
-      <Layout currentUser={currentUser} setCurrentUser={setCurrentUser}>
-        <Routes>
-          {/* Público */}
-          <Route path="/register" element={<UserRegister setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
-          <Route path="/select" element={<UserSelect setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
+    <Layout currentUser={currentUser} setCurrentUser={setCurrentUser}>
+      <Routes>
+        {/* Público */}
+        <Route path="/register" element={<UserRegister setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
+        <Route path="/select" element={<UserSelect setCurrentUser={setCurrentUser} hasUsers={hasUsers} />} />
 
-          {/* Privadas */}
-          <Route path="/start" element={currentUser ? <Start currentUser={currentUser} /> : <Navigate to="/select" />} />
-          <Route path="/routines" element={currentUser ? <SleepRoutines currentUser={currentUser} /> : <Navigate to="/select" />} />
-          <Route path="/diary" element={currentUser ? <SleepDiary currentUser={currentUser} /> : <Navigate to="/select" />} />
-          <Route path="/advice" element={currentUser ? <AdviceList /> : <Navigate to="/select" />} />
-          <Route path="/userEdit" element={currentUser ? <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/select" />} />
+        {/* Privadas */}
+        <Route path="/start" element={currentUser ? <Start currentUser={currentUser} /> : <Navigate to="/select" />} />
+        <Route path="/routines" element={currentUser ? <SleepRoutines currentUser={currentUser} /> : <Navigate to="/select" />} />
+        <Route path="/diary" element={currentUser ? <SleepDiary currentUser={currentUser} /> : <Navigate to="/select" />} />
+        <Route path="/advice" element={currentUser ? <AdviceList /> : <Navigate to="/select" />} />
+        <Route path="/userEdit" element={currentUser ? <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/select" />} />
 
-          {/* Redirección por defecto */}
-          <Route path="*" element={<Navigate to={currentUser ? "/start" : hasUsers ? "/select" : "/register"} />} />
-        </Routes>
-      </Layout>
-    </Router>
+        {/* Redirección por defecto */}
+        <Route path="*" element={<Navigate to={currentUser ? "/start" : hasUsers ? "/select" : "/register"} />} />
+      </Routes>
+    </Layout>
   )
 }
 
