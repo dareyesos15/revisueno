@@ -9,6 +9,7 @@ import SleepRoutines from "./components/SleepRoutines"
 import SleepDiary from "./components/SleepDiary"
 import AdviceList from "./components/AdviceList"
 import UserEdit from "./components/user/UserEdit"
+import Exercise from "./components/Exercise"
 import { getUsers } from "./services/api"
 
 import "./styles/App.css"
@@ -91,6 +92,7 @@ function App() {
         <Route path="/routines" element={currentUser ? <SleepRoutines currentUser={currentUser} /> : <Navigate to="/select" />} />
         <Route path="/diary" element={currentUser ? <SleepDiary currentUser={currentUser} /> : <Navigate to="/select" />} />
         <Route path="/advice" element={currentUser ? <AdviceList /> : <Navigate to="/select" />} />
+        <Route path="/exercise" element={currentUser ? <Exercise /> : <Navigate to="/select" />} />
         <Route path="/userEdit" element={currentUser ? <UserEdit currentUser={currentUser} setCurrentUser={setCurrentUser} /> : <Navigate to="/select" />} />
 
         {/* Redirección por defecto */}

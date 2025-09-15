@@ -25,6 +25,7 @@ function Start({ currentUser }) {
       {/* Logo + título en la misma línea */}
       <div className="d-flex justify-content-center align-items-center mb-4">
         <img className="logo me-2" src={Moon} alt="moon" />
+
         <h1 className="main-color display-4 m-0">Revisueño</h1>
       </div>
 
@@ -37,14 +38,21 @@ function Start({ currentUser }) {
         <button className="btn main-color btn-lg" onClick={() => navigate("/diary")}>
           Registrar Sueño
         </button>
+
+        <button className="btn main-color btn-lg" onClick={() => navigate("/diary")}>
+          Historial de sueño
+        </button>
+
         <button className="btn main-color btn-lg" onClick={() => navigate("/routines")}>
           Rutina Antes de Dormir
         </button>
-        <button className="btn main-color btn-lg" onClick={() => navigate("/exercises")}>
-          Ejercicios de Relajación
-        </button>
+
         <button className="btn main-color btn-lg" onClick={() => navigate("/advice")}>
           Consejos para Dormir Bien
+        </button>
+
+        <button className="btn main-color btn-lg" onClick={() => navigate("/exercise")}>
+          Ejercicios de relajación
         </button>
       </div>
     </div>

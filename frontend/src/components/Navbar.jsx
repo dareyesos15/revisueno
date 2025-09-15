@@ -43,7 +43,7 @@ function Navbar({ currentUser, setCurrentUser }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-house" viewBox="0 0 16 16">
                 <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6.647 6.647a.5.5 0 0 0 .708.708L2 7.207V14.5A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5V7.207l.293.294a.5.5 0 0 0 .708-.708L8.354 1.146z" />
               </svg>
-              
+
               <span>Inicio</span>
             </Link>
 
@@ -80,6 +80,18 @@ function Navbar({ currentUser, setCurrentUser }) {
               </svg>
 
               <span>Consejos</span>
+            </Link>
+
+            <Link
+              to="/exercise"
+              className="btn btn-link nav-link text-white fs-5 d-flex align-items-center justify-content-center gap-2 mx-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-heart-pulse" viewBox="0 0 16 16">
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                <path d="M10.464 3.314a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.945-.049l-1.805 3.41.566.3.227-.431.945.049L6.464 9.79l1.18-2.459L9.45 11.29l.227.432.566-.3z" />
+              </svg>
+
+              <span>Ejercicios</span>
             </Link>
           </div>
 
