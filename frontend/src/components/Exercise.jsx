@@ -47,7 +47,7 @@ function Exercise() {
                   </>
                 )}
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{e.nombre}</h5>
+                  <h5 className="card-title fw-bold">{e.nombre}</h5>
                   <p className="card-text">{e.descripcion}</p>
                   <p className="text-muted mt-auto">
                     ⏱️ Duración: {e.duracion} minutos

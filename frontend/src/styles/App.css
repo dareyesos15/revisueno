@@ -1,13 +1,14 @@
 /* general */
 body {
-  background-color: #e0cbff; 
+  background-color: #e0cbff;
   font-family: 'Verdana', sans-serif;
-  font-size: 18px; /* Texto grande */
+  font-size: 18px;
+  /* Texto grande */
 }
 
 .main-color {
-    color: #5c1bbe;
-    font-weight: bold;
+  color: #5c1bbe;
+  font-weight: bold;
 }
 
 .second-color {
@@ -23,13 +24,15 @@ button.main-color {
 }
 
 button.main-color:hover {
-  background-color: #4a1496 !important; /* un poco más oscuro al pasar el mouse */
+  background-color: #4a1496 !important;
+  /* un poco más oscuro al pasar el mouse */
   border-color: #4a1496 !important;
 }
 
 button.btn-lg {
   padding: 16px;
-  font-size: 20px; /* botones grandes */
+  font-size: 20px;
+  /* botones grandes */
 }
 
 .login {
@@ -58,11 +61,38 @@ button.btn-lg {
 
 /* Separador para que el contenido no quede pegado */
 .separator {
-  margin-bottom: 3em; /* antes era 8em */
+  margin-bottom: 3em;
+  /* antes era 8em */
 }
 
 /* Estilos componente UserSelect*/
 
 .user-list {
   cursor: pointer;
+}
+
+/* Animación para nav items */
+.navitem {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 8px;
+  /* Espacio para la línea */
+}
+
+.navitem::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: rgb(255, 255, 255);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease-in-out;
+}
+
+.navitem:hover::after,
+.navitem.active::after {
+  width: 90%;
+  /* Ancho de la línea al pasar el mouse o si está activo */
 }

@@ -16,7 +16,7 @@ function AdviceList() {
           <div key={a.id} className="col-12 col-md-6">
             <div className="card shadow-sm h-100">
               <div className="card-body">
-                <h5 className="card-title">{a.title}</h5>
+                <h5 className="card-title fw-bold">{a.title}</h5>
                 <p className="card-text">{a.description}</p>
               </div>
             </div>
