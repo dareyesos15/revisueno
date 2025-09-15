@@ -25,23 +25,23 @@ Cada paso puede marcarse como completado, y al finalizar todos, la aplicación f
 - **Base de datos:** SQLite (con SQLAlchemy ORM)
 - **Otros:** CORS para la conexión frontend-backend
 
-## Comandos de ejecución
+## Comandos para levantar el proyecto
 
 **Levantar entorno virtual de python**
-- *Windows* -> .\\.venv\Scripts\activate
-- *Sistemas Unix* -> source .venv/bin/activate
+- **Windows** .\\.venv\Scripts\activate
+- **Sistemas Unix** source .venv/bin/activate
 
-**Instalar dependencias de python** ->
-pip install -r backend/requirements.txt
+**Instalar dependencias de python**
+- pip install -r backend/requirements.txt
 
-**Levantar servidor Flask** ->
+**Levantar servidor Flask**
 - cd backend
 - python app.py
 
-**Levantar frontend** ->
+**Levantar frontend**
 - cd frontend
 - npm install && npm run dev
-.
+
 ## Direcciones de ejecución por defecto
 
 **frontend:** http://localhost:5173/
