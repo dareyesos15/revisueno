@@ -32,20 +32,26 @@ Cada paso puede marcarse como completado, y al finalizar todos, la aplicación f
 **Página de instalación de Node.js:** https://nodejs.org/es/download
 **Página de instalación Python 3:** https://www.python.org/downloads
 
-**1. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
+**1. Crear entorno virtual de python**
+    *python -m venv venv*
+
+    *source venv/bin/activate* en Linux/Mac
+    *.venv\Scripts\activate * en Windows
+
+**2. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
     *Git clone https://github.com/dareyesos15/revisueno.git*
 
-**2. Cambiar la ruta al del proyecto:**
+**3. Cambiar la ruta al del proyecto:**
     *cd revisueno*
 
-**3. Para la instalación de dependencias se usan los siguientes comandos:**
+**4. Para la instalación de dependencias se usan los siguientes comandos:**
 - Dependencias de python. Desde la ruta revisueno/backend:
     *pip install -r requirements.txt*
 
 - Dependencias de javascript y react. Desde la ruta revisueno/frontend:
     *npm install*
 
-**4. Incializar el backend (cambiar al directorio revisueno/backend):**
+**5. Incializar el backend (cambiar al directorio revisueno/backend):**
 - Crear base de datos: 
     *python app.py*
 
@@ -55,7 +61,7 @@ Cada paso puede marcarse como completado, y al finalizar todos, la aplicación f
 - Iniciar servicio de backend:
     *flask --app app run*
 
-**5. Inicializar el frontend (cambiar al directorio revisueno/frontend):**
+**6. Inicializar el frontend (cambiar al directorio revisueno/frontend):**
 - Iniciar servicio de frontend:
 	*npm run dev*
 
