@@ -85,8 +85,6 @@ def update_user(userid):
 
     data = request.json
 
-    from datetime import datetime
-
     # actualizar datos
     if "name" in data:
         user.name = data["name"]
@@ -101,7 +99,15 @@ def update_user(userid):
         user.timetowakeup = datetime.strptime(data["timetowakeup"], "%H:%M").time()
 
     db.session.commit()
-    return jsonify({"message": "Usuario actualizado"})
+    
+    # Devolver el objeto del usuario actualizado
+    return jsonify({
+        "id": user.id,
+        "name": user.name,
+        "birthdate": user.birthdate.isoformat() if user.birthdate else None,
+        "timetosleep": user.timetosleep.strftime("%H:%M") if user.timetosleep else None,
+        "timetowakeup": user.timetowakeup.strftime("%H:%M") if user.timetowakeup else None
+    })
 
 
 @api.route('/users/<int:userid>', methods=['DELETE'])
