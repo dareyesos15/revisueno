@@ -32,20 +32,20 @@ Cada paso puede marcarse como completado, y al finalizar todos, la aplicación f
 **Página de instalación de Node.js:** https://nodejs.org/es/download
 **Página de instalación Python 3:** https://www.python.org/downloads
 
-**1. Crear entorno virtual de python**
+**1. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
+    `Git clone https://github.com/dareyesos15/revisueno.git`
+
+**2. Cambiar la ruta al del proyecto:**
+    `cd revisueno`
+
+**3. Crear entorno virtual de python**
     `python -m venv venv`
 
-**2. Ejecutar entorno virtual de python**
+**4. Ejecutar entorno virtual de python**
 Linux:
     `source venv/bin/activate`
 Windows
-    `.venv\Scripts\activate`
-
-**3. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
-    `Git clone https://github.com/dareyesos15/revisueno.git`
-
-**4. Cambiar la ruta al del proyecto:**
-    `cd revisueno`
+    `venv\Scripts\activate`
 
 **5. Para la instalación de dependencias se usan los siguientes comandos:**
 - Dependencias de python. Desde la ruta revisueno/backend:
