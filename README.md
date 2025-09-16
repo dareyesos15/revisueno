@@ -33,37 +33,40 @@ Cada paso puede marcarse como completado, y al finalizar todos, la aplicación f
 **Página de instalación Python 3:** https://www.python.org/downloads
 
 **1. Crear entorno virtual de python**
-    *python -m venv venv*
+    `python -m venv venv`
 
-    *source venv/bin/activate* en Linux/Mac
-    *.venv\Scripts\activate * en Windows
+**2. Ejecutar entorno virtual de python**
+Linux:
+    `source venv/bin/activate`
+Windows
+    `.venv\Scripts\activate`
 
-**2. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
-    *Git clone https://github.com/dareyesos15/revisueno.git*
+**3. Clonar el repositorio. Si es desde una bash de git se puede hacer usando el comando desde la ruta donde se desea clonar:**
+    `Git clone https://github.com/dareyesos15/revisueno.git`
 
-**3. Cambiar la ruta al del proyecto:**
-    *cd revisueno*
+**4. Cambiar la ruta al del proyecto:**
+    `cd revisueno`
 
-**4. Para la instalación de dependencias se usan los siguientes comandos:**
+**5. Para la instalación de dependencias se usan los siguientes comandos:**
 - Dependencias de python. Desde la ruta revisueno/backend:
-    *pip install -r requirements.txt*
+    `pip install -r requirements.txt`
 
 - Dependencias de javascript y react. Desde la ruta revisueno/frontend:
-    *npm install*
+    `npm install`
 
-**5. Incializar el backend (cambiar al directorio revisueno/backend):**
+**6. Incializar el backend (cambiar al directorio revisueno/backend):**
 - Crear base de datos: 
-    *python app.py*
+    `python app.py`
 
 - Agregar datos precargados a la base de datos:
-    *python seed.py*
+    `python seed.py`
 
 - Iniciar servicio de backend:
-    *flask --app app run*
+    `flask --app app run`
 
-**6. Inicializar el frontend (cambiar al directorio revisueno/frontend):**
+**7. Inicializar el frontend (cambiar al directorio revisueno/frontend):**
 - Iniciar servicio de frontend:
-	*npm run dev*
+	`npm run dev`
 
 ## Direcciones de ejecución por defecto
 
