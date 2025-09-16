@@ -95,6 +95,14 @@ function SleepDiary({ currentUser }) {
         </button>
       </div>
 
+      {currentUser.timetosleep && currentUser.timetowakeup && (
+        <div className="alert alert-info text-center mb-4">
+          <p className="mb-0">
+            <strong>Tu meta de sueño:</strong> Dormir a las <strong>{currentUser.timetosleep}</strong> y despertar a las <strong>{currentUser.timetowakeup}</strong>.
+          </p>
+        </div>
+      )}
+
       {message && <div className="alert alert-info">{message}</div>}
 
       {records.length > 0 ? (
@@ -152,10 +160,22 @@ function SleepDiary({ currentUser }) {
                 <button type="button" className="btn-close" onClick={() => addModalInstance.current?.hide()} />
               </div>
               <div className="modal-body">
-                <input type="date" className="form-control mb-2" name="day" value={form.day} onChange={handleChange} required />
-                <input type="time" className="form-control mb-2" name="asleepat" value={form.asleepat} onChange={handleChange} required />
-                <input type="time" className="form-control mb-2" name="awakeat" value={form.awakeat} onChange={handleChange} required />
-                <textarea className="form-control" name="note" value={form.note} onChange={handleChange} placeholder="Nota opcional" />
+                <div className="mb-3">
+                  <label htmlFor="day" className="form-label">Fecha</label>
+                  <input type="date" className="form-control" id="day" name="day" value={form.day} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="asleepat" className="form-label">Hora de dormir</label>
+                  <input type="time" className="form-control" id="asleepat" name="asleepat" value={form.asleepat} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="awakeat" className="form-label">Hora de despertar</label>
+                  <input type="time" className="form-control" id="awakeat" name="awakeat" value={form.awakeat} onChange={handleChange} required />
+                </div>
+                <div className="mb-3">
+                  <label htmlFor="note" className="form-label">Nota (opcional)</label>
+                  <textarea className="form-control" id="note" name="note" value={form.note} onChange={handleChange} placeholder="¿Cómo te sentiste al despertar?" />
+                </div>
               </div>
               <div className="modal-footer">
                 <button type="submit" className="btn main-color text-white">Guardar</button>
